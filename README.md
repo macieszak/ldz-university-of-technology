@@ -9,3 +9,8 @@ The course provides in-depth knowledge of database management systems, focusing 
 **MIASI** - *Modelowanie i analiza systemów informatycznych*
 
 This subject focuses on applying appropriate graphical notations for modeling in specific contexts, analyzing business processes in real organizations, and constructing requirement models based on business and system analysis.
+
+
+**SMPD** - *Statystyczne metody przetwarzania danych*
+
+The course focused on techniques for recognizing and classifying data. It covers the methodology of data recognition, including training and test datasets, labels, feature spaces, and classifiers.
