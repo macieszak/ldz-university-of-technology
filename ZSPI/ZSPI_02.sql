@@ -1,17 +1,17 @@
---26. Podaj nazwÍ dzia≥u, numer dzia≥u, úrednie zarobki w dziale oraz ilu pracownikÛw w dziale pracuje.
+--26. Podaj nazwƒô dzia≈Çu, numer dzia≈Çu, ≈õrednie zarobki w dziale oraz ilu pracownik√≥w w dziale pracuje.
 SELECT d.DEPTNAME, d.DEPTNO, AVG(e.SALARY) AS AVG_SALARY, COUNT(1) AS EMP_NUMBER
 FROM DEPARTMENT d
-LEFT JOIN EMPLOYEE e ON d.DEPTNO = e.WORKDEPT
+         LEFT JOIN EMPLOYEE e ON d.DEPTNO = e.WORKDEPT
 GROUP BY d.DEPTNAME, d.DEPTNO;
 
---27. Podaj nazwy dzia≥Ûw, dla ktÛrych pierwsza litera to A drugi znak to % trzeci znak to +
+--27. Podaj nazwy dzia≈Ç√≥w, dla kt√≥rych pierwsza litera to A drugi znak to % trzeci znak to +
 SELECT DEPTNAME
 FROM DEPARTMENT
 WHERE SUBSTR(DEPTNAME, 1, 1) = 'A'
   AND SUBSTR(DEPTNAME, 2, 1) = '%'
   AND SUBSTR(DEPTNAME, 3, 1) = '+';
-  
- --28. WyúwietliÊ miesiÍcznie pensjÍ pracownika zaokrπglonych do liczby ca≥kowitej.
+
+--28. Wy≈õwietliƒá miesiƒôcznie pensjƒô pracownika zaokrƒÖglonych do liczby ca≈Çkowitej.
 SELECT FIRSTNME, LASTNAME, INT(SALARY/12) AS MONTH_SALARY
 FROM EMPLOYEE;
 --LUB
@@ -25,7 +25,7 @@ FROM EMPLOYEE;
 SELECT LASTNAME, SUBSTR(LASTNAME, 1, 3) AS FIRST_3_LETTERS
 FROM EMPLOYEE;
 
---30. Podaj nazwisko pracownika, ktÛry pracuje na stanowisku MANAGER i jest kobietπ (Operator porÛwnania par zbiorÛw w IN)
+--30. Podaj nazwisko pracownika, kt√≥ry pracuje na stanowisku MANAGER i jest kobietƒÖ (Operator por√≥wnania par zbior√≥w w IN)
 SELECT LASTNAME
 FROM EMPLOYEE
 WHERE JOB IN ('MANAGER') AND SEX IN ('F');
@@ -34,142 +34,142 @@ SELECT LASTNAME
 FROM EMPLOYEE
 WHERE JOB = 'MANAGER' AND SEX = 'F';
 
---31. Podaj nazwÍ projektu i ilu pracownikÛw realizuje dany projekt.
+--31. Podaj nazwƒô projektu i ilu pracownik√≥w realizuje dany projekt.
 SELECT p.PROJNAME, COUNT(e.EMPNO)
 FROM PROJECT p
-JOIN EMPPROJACT e ON p.PROJNO = e.PROJNO
+         JOIN EMPPROJACT e ON p.PROJNO = e.PROJNO
 GROUP BY p.PROJNAME;
 
---32. Podaj nazwÍ projektu i jego szefÛw.
+--32. Podaj nazwƒô projektu i jego szef√≥w.
 SELECT p.PROJNAME, e.FIRSTNME, e.LASTNAME
 FROM PROJECT p
-JOIN EMPLOYEE e ON p.RESPEMP = e.EMPNO;
+         JOIN EMPLOYEE e ON p.RESPEMP = e.EMPNO;
 
---33. Podaj najlepiej zarabiajπce osoby na kaødym ze stanowisk pracy.
+--33. Podaj najlepiej zarabiajƒÖce osoby na ka≈ºdym ze stanowisk pracy.
 select e.job, e.firstnme, e.lastname, e.salary
 from employee e
 where e.salary = (
-					select max(salary)
-					from employee
-					where job = e.job
-					)
+    select max(salary)
+    from employee
+    where job = e.job
+)
 order by e.job;
 
---34. W jakim departamencie jakie sπ realizowane projekty.
+--34. W jakim departamencie jakie sƒÖ realizowane projekty.
 select d.deptno, d.deptname, p.projno, p.projname
 from department d
-join project p
-on d.deptno = p.deptno
+         join project p
+              on d.deptno = p.deptno
 order by d.deptname;
 
---35. Podaj czas realizacji projektÛw.
-select 
-projno,
-projname, 
-prstdate as start_date, 
-prendate as end_date,  
-((YEAR(prendate) - YEAR(prstdate)) * 12) + (MONTH(prendate) - MONTH(prstdate)) AS proj_duration_in_month
+--35. Podaj czas realizacji projekt√≥w.
+select
+    projno,
+    projname,
+    prstdate as start_date,
+    prendate as end_date,
+    ((YEAR(prendate) - YEAR(prstdate)) * 12) + (MONTH(prendate) - MONTH(prstdate)) AS proj_duration_in_month
 from project;
 
---36. Podaj projekt i podprojekty realizowane w kaødym z nich.
+--36. Podaj projekt i podprojekty realizowane w ka≈ºdym z nich.
 select * from project;
 select major.projno as main_project_id, major.projname as main_poject_name, subpr.projno as subproject_id, subpr.projname as subproject_name
 from project major
-left join project subpr
-on major.projno = subpr.majproj
+         left join project subpr
+                   on major.projno = subpr.majproj
 order by major.projno;
 
---37. ZnaleüÊ pracownika zarabiajπcego najwiÍcej na kaødym stanowisku pracy.
+--37. Znale≈∫ƒá pracownika zarabiajƒÖcego najwiƒôcej na ka≈ºdym stanowisku pracy.
 select e.job, e.firstnme, e.lastname, e.salary
 from employee e
 where e.salary = (
-					select max(salary)
-					from employee
-					where job = e.job
-					)
+    select max(salary)
+    from employee
+    where job = e.job
+)
 order by e.job;
 
---38. ZnaleüÊ pracownika zarabiajπcego najwiÍcej na kaødym stanowisku pracy w kaødym departamencie.
+--38. Znale≈∫ƒá pracownika zarabiajƒÖcego najwiƒôcej na ka≈ºdym stanowisku pracy w ka≈ºdym departamencie.
 select * from department;
 select * from employee;
 
 select d.deptno as department_id, d.deptname as department_name, e.job as job, e.firstnme, e.lastname, e.salary
 from department d
-join employee e
-on d.deptno = e.workdept
+         join employee e
+              on d.deptno = e.workdept
 where e.salary = (
-					select max(salary)
-					from employee
-					where job = e.job and workdept = e.workdept
-				 )
+    select max(salary)
+    from employee
+    where job = e.job and workdept = e.workdept
+)
 ORDER BY d.deptname;
 
---39. ZnaleüÊ po trzech pracownikÛw zarabiajπcych najwiÍcej na kaødym stanowisku pracy.
-SELECT ranked_employees.job, 
-       ranked_employees.firstnme, 
-       ranked_employees.lastname, 
+--39. Znale≈∫ƒá po trzech pracownik√≥w zarabiajƒÖcych najwiƒôcej na ka≈ºdym stanowisku pracy.
+SELECT ranked_employees.job,
+       ranked_employees.firstnme,
+       ranked_employees.lastname,
        ranked_employees.salary
 FROM (
-    SELECT e.job, 
-           e.firstnme, 
-           e.lastname, 
-           e.salary, 
-           ROW_NUMBER() OVER (PARTITION BY e.job ORDER BY e.salary DESC) AS rank
-    FROM employee e
-) AS ranked_employees
+         SELECT e.job,
+                e.firstnme,
+                e.lastname,
+                e.salary,
+                ROW_NUMBER() OVER (PARTITION BY e.job ORDER BY e.salary DESC) AS rank
+         FROM employee e
+     ) AS ranked_employees
 WHERE ranked_employees.rank <= 3
 ORDER BY ranked_employees.job, ranked_employees.rank;
 
---40. Mamy zapytanie: select * from (values ('A'),('∆'),('Ê'),('è'),('a')) temp1 (col1); posortuj wzglÍdem alfabetu polskiego
-SELECT col1 
-FROM (VALUES ('A'),('∆'),('Ê'),('è'),('a')) AS temp1 (col1) 
+--40. Mamy zapytanie: select * from (values ('A'),('ƒÜ'),('ƒá'),('≈π'),('a')) temp1 (col1); posortuj wzglƒôdem alfabetu polskiego
+SELECT col1
+FROM (VALUES ('A'),('ƒÜ'),('ƒá'),('≈π'),('a')) AS temp1 (col1)
 ORDER BY col1;
 
---41. ZnaleüÊ osoby, ktÛre zarabiajπ mniej niø wynosi úrednia w ich zawodach
+--41. Znale≈∫ƒá osoby, kt√≥re zarabiajƒÖ mniej ni≈º wynosi ≈õrednia w ich zawodach
 select e.job, e.firstnme, e.lastname, e.salary
 from employee e
 where e.salary < (
-				 	select avg(salary)
-				 	from employee 
-				 	where job = e.job
-				 )
+    select avg(salary)
+    from employee
+    where job = e.job
+)
 order by e.job;
 
---42. ZnaleüÊ departament, w ktÛrym nikt nie pracuje (wykorzystaj EXISTS, JOIN i klauzulÍ IN).
+--42. Znale≈∫ƒá departament, w kt√≥rym nikt nie pracuje (wykorzystaj EXISTS, JOIN i klauzulƒô IN).
 select d.deptno, d.deptname
 from department d
 where not exists (
-					select 1
-					from employee e
-					where d.deptno = e.workdept
-				 );
+    select 1
+    from employee e
+    where d.deptno = e.workdept
+);
 
 select d.deptno, d.deptname
 from department d
 where d.deptno not in (
-						select e.workdept
-						from employee e
-						where e.workdept = d.deptno
-					   );
- 
- --43. ZamieÒ ciπg znakÛw na format daty np. '04-29-2020' (do wykorzystania podczas wstawia danych do pola typu Date)
+    select e.workdept
+    from employee e
+    where e.workdept = d.deptno
+);
+
+--43. Zamie≈Ñ ciƒÖg znak√≥w na format daty np. '04-29-2020' (do wykorzystania podczas wstawia danych do pola typu Date)
 INSERT INTO PROJECT (PROJNO, PROJNAME, DEPTNO, RESPEMP, PRSTAFF, PRSTDATE, PRENDATE, MAJPROJ)
 VALUES ('P10001', 'Test Project', 'D01', '000020', 5.00, DATE('2024-01-01'), DATE('2024-12-31'), NULL);
 
---44. Ile pe≥nych miesiÍcy up≥ynÍ≥o w okresie od pierwszej zatrudnionej osoby do ostatniej zatrudnionej osoby ñ podaj w pe≥nych miesiπcach?
+--44. Ile pe≈Çnych miesiƒôcy up≈Çynƒô≈Ço w okresie od pierwszej zatrudnionej osoby do ostatniej zatrudnionej osoby ‚Äì podaj w pe≈Çnych miesiƒÖcach?
 SELECT FLOOR(
-    (YEAR(MAX(HIREDATE)) - YEAR(MIN(HIREDATE))) * 12 +
-    (MONTH(MAX(HIREDATE)) - MONTH(MIN(HIREDATE)))
-) AS full_months
+               (YEAR(MAX(HIREDATE)) - YEAR(MIN(HIREDATE))) * 12 +
+               (MONTH(MAX(HIREDATE)) - MONTH(MIN(HIREDATE)))
+       ) AS full_months
 FROM EMPLOYEE;
 
 SELECT FLOOR(
-    (YEAR(MAX(HIREDATE)) - YEAR(MIN(HIREDATE))) * 12 +
-    (MONTH(MAX(HIREDATE)) - MONTH(MIN(HIREDATE)))
-)
+               (YEAR(MAX(HIREDATE)) - YEAR(MIN(HIREDATE))) * 12 +
+               (MONTH(MAX(HIREDATE)) - MONTH(MIN(HIREDATE)))
+       )
 FROM EMPLOYEE;
 
---45. Jaka jest data ostatniego dnia danego miesiπca?
+--45. Jaka jest data ostatniego dnia danego miesiƒÖca?
 SELECT LAST_DAY(DATE('2024-12-12')) AS LAST_DAY_OF_MONTH
 FROM SYSIBM.SYSDUMMY1;
 
@@ -177,19 +177,19 @@ FROM SYSIBM.SYSDUMMY1;
 SELECT DAY(LAST_DAY(DATE('2024-02-01'))) AS DAYS_IN_FEBRUARY
 FROM SYSIBM.SYSDUMMY1;
 
---47. W jakim dniu tygodnia jest Sylwester tego roku (dzieÒ tygodnia ma byÊ w jÍzyku polskim)
-SELECT DAYNAME(DATE('2024-12-31')) AS DZIE—_TYGODNIA
+--47. W jakim dniu tygodnia jest Sylwester tego roku (dzie≈Ñ tygodnia ma byƒá w jƒôzyku polskim)
+SELECT DAYNAME(DATE('2024-12-31')) AS DZIE≈É_TYGODNIA
 FROM SYSIBM.SYSDUMMY1;
 
---48. Dodaj 3 miesiπce do bieøπcej daty.
+--48. Dodaj 3 miesiƒÖce do bie≈ºƒÖcej daty.
 SELECT CURRENT DATE AS CURRENT_DATE, ADD_MONTHS(CURRENT DATE, 3) AS NEW_DATE
 FROM SYSIBM.SYSDUMMY1;
 
---49. Do aktualnej daty dodaj 3 dni i odejmij 1 godzinÍ.
+--49. Do aktualnej daty dodaj 3 dni i odejmij 1 godzinƒô.
 SELECT CURRENT_TIMESTAMP + 3 DAYS - 1 HOUR AS NEW_DATE
 FROM SYSIBM.SYSDUMMY1;
 
---50. ZnaleüÊ, ile pracownikÛw zosta≥o zatrudnionych, w kaødym roku i miesiπcu, w ktÛrym funkcjonowa≥a firma (wykorzystaÊ operator ROLLUP i CUBE i za pomocπ operatorÛw zbiorÛw UNION ALL, UNION, INTERSECT, MINUS zobaczyÊ czym rÛøniπ siÍ dane wyniki zapytaÒ).
+--50. Znale≈∫ƒá, ile pracownik√≥w zosta≈Ço zatrudnionych, w ka≈ºdym roku i miesiƒÖcu, w kt√≥rym funkcjonowa≈Ça firma (wykorzystaƒá operator ROLLUP i CUBE i za pomocƒÖ operator√≥w zbior√≥w UNION ALL, UNION, INTERSECT, MINUS zobaczyƒá czym r√≥≈ºniƒÖ siƒô dane wyniki zapyta≈Ñ).
 --ROLLUP
 SELECT YEAR(HIREDATE) AS HIRE_YEAR,
        MONTH(HIREDATE) AS HIRE_MONTH,
@@ -249,49 +249,49 @@ SELECT YEAR(HIREDATE) AS HIRE_YEAR,
        COUNT(*) AS EMPLOYEE_COUNT
 FROM EMPLOYEE
 GROUP BY CUBE(YEAR(HIREDATE), MONTH(HIREDATE))
-MINUS
+    MINUS
 SELECT YEAR(HIREDATE) AS HIRE_YEAR,
        MONTH(HIREDATE) AS HIRE_MONTH,
        COUNT(*) AS EMPLOYEE_COUNT
 FROM EMPLOYEE
 GROUP BY ROLLUP(YEAR(HIREDATE), MONTH(HIREDATE));
 
---51. Wykorzystaj sk≥adniÍ CASE to okreúlenia jak wysokπ mamy pensjÍ przyk≥adowo:
---salary < 10000 to mamy wyúwietlany napis 'Niska pensja'
---salary between 10000 and 20000 to mamy wyúwietlany napis 'årednia pensja'
---salary >20000 to mamy wyúwietlany napis 'Wysoka pensja'
---w innym przypadku mamy wyúwietlany napis 'brak wartoúci'
+--51. Wykorzystaj sk≈Çadniƒô CASE to okre≈õlenia jak wysokƒÖ mamy pensjƒô przyk≈Çadowo:
+--salary < 10000 to mamy wy≈õwietlany napis 'Niska pensja'
+--salary between 10000 and 20000 to mamy wy≈õwietlany napis '≈örednia pensja'
+--salary >20000 to mamy wy≈õwietlany napis 'Wysoka pensja'
+--w innym przypadku mamy wy≈õwietlany napis 'brak warto≈õci'
 SELECT salary,
        CASE
            WHEN salary < 10000 THEN 'Niska pensja'
-           WHEN salary BETWEEN 10000 AND 20000 THEN 'årednia pensja'
+           WHEN salary BETWEEN 10000 AND 20000 THEN '≈örednia pensja'
            WHEN salary > 20000 THEN 'Wysoka pensja'
-           ELSE 'Brak wartoúci'
-       END AS salary_category
+           ELSE 'Brak warto≈õci'
+           END AS salary_category
 FROM employee;
 
---52. Mamy zapytanie: select * from (values ('GdaÒsk'),('Zgierz'),('KrakÛw'),('£Ûdü')) temp1 (col1)
-select * 
-from (values ('GdaÒsk'),('Zgierz'),('KrakÛw'),('£Ûdü')) temp1 (col1);
+--52. Mamy zapytanie: select * from (values ('Gda≈Ñsk'),('Zgierz'),('Krak√≥w'),('≈Å√≥d≈∫')) temp1 (col1)
+select *
+from (values ('Gda≈Ñsk'),('Zgierz'),('Krak√≥w'),('≈Å√≥d≈∫')) temp1 (col1);
 
 select col1, length(col1)
-FROM (VALUES ('GdaÒsk'), ('Zgierz'), ('KrakÛw'), ('£Ûdü')) temp1 (col1);
+FROM (VALUES ('Gda≈Ñsk'), ('Zgierz'), ('Krak√≥w'), ('≈Å√≥d≈∫')) temp1 (col1);
 
---ZnaleüÊ nazwy, ktÛre majπ d≥ugoúÊ 6 znakÛw.
---WybraÊ i wyúwietliÊ tylko 3 znaki z danej kolumny.
+--Znale≈∫ƒá nazwy, kt√≥re majƒÖ d≈Çugo≈õƒá 6 znak√≥w.
+--Wybraƒá i wy≈õwietliƒá tylko 3 znaki z danej kolumny.
 SELECT LEFT(col1, 3) AS first_three_chars
-FROM (VALUES ('GdaÒsk'), ('Zgierz'), ('KrakÛw'), ('£Ûdü')) temp1 (col1)
-WHERE LENGTH(col1) = 6; -- wyswietli tylko Zgi, poniewaø, GdaÒsk, KrakÛw zawierajπ polskie znaki ktÛre nie sπ liczone jako 1
+FROM (VALUES ('Gda≈Ñsk'), ('Zgierz'), ('Krak√≥w'), ('≈Å√≥d≈∫')) temp1 (col1)
+WHERE LENGTH(col1) = 6; -- wyswietli tylko Zgi, poniewa≈º, Gda≈Ñsk, Krak√≥w zawierajƒÖ polskie znaki kt√≥re nie sƒÖ liczone jako 1
 
---53. Zaprezentuj úrednie pensje pracownikÛw wzglÍdem ich grup zaszeregowania (kolumna EDLEVEL), podajπc dodatkowo na koÒcu (≥πczne jako podsumowanie) úredniπ dla wszystkich pracownikÛw (klauzula ROLLUP)
-SELECT edlevel, 
+--53. Zaprezentuj ≈õrednie pensje pracownik√≥w wzglƒôdem ich grup zaszeregowania (kolumna EDLEVEL), podajƒÖc dodatkowo na ko≈Ñcu (≈ÇƒÖczne jako podsumowanie) ≈õredniƒÖ dla wszystkich pracownik√≥w (klauzula ROLLUP)
+SELECT edlevel,
        AVG(salary) AS avg_salary
 FROM employee
 GROUP BY edlevel
 WITH ROLLUP
 ORDER BY edlevel;
 
---54. Zaprezentuj úrednie pensje pracownikÛw wzglÍdem ich grup zaszeregowania (kolumna EDLEVEL) oraz dla danych stanowisk pracy (JOB), podajπc dodatkowo na koÒcu ≥πczne podsumowania (tzn. úrednie na kaødym poziomie grup zaszeregowania - klauzula ROLLUP)
+--54. Zaprezentuj ≈õrednie pensje pracownik√≥w wzglƒôdem ich grup zaszeregowania (kolumna EDLEVEL) oraz dla danych stanowisk pracy (JOB), podajƒÖc dodatkowo na ko≈Ñcu ≈ÇƒÖczne podsumowania (tzn. ≈õrednie na ka≈ºdym poziomie grup zaszeregowania - klauzula ROLLUP)
 SELECT edlevel, job, AVG(salary) AS avg_salary
 FROM employee
 GROUP BY ROLLUP(edlevel, job)
